@@ -1,5 +1,7 @@
-﻿using SM_Programming_Exercise.Library.Entities;
+﻿using SM_Programming_Exercise.Library.Data;
+using SM_Programming_Exercise.Library.Entities;
 using SM_Programming_Exercise.Library.Enums;
+using SM_Programming_Exercise.Library.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,20 +11,17 @@ namespace SM_Programming_Exercise.Library
     {
         public Table Table { get; private set; }
         public Tile Tile { get; private set; }
-        public List<Command> Commands { get; private set; } = new List<Command>();
+        public IEnumerable<Command> Commands { get; private set; }
         public string ResultData { get; private set; }
 
-        public bool TileStillOnTable
+        public bool TileStillOnTable { get => Table.BoundaryBreached(Tile.X, Tile.Y) ? false : true; }
+
+        public Simulation(IProtocolData data)
         {
-            get
-            {
-                if (Tile.X < 0 || Tile.X > Table.Width - 1 ||
-                    Tile.Y < 0 || Tile.Y > Table.Height - 1)
-                {
-                    return false;
-                }
-                return true;
-            }
+            Table = new Table(data.TableWidth, data.TableHeight);
+            Tile = new Tile(data.TileStartX, data.TileStartY);
+            Commands = data.CommandList;
+            ResultData = $"{Tile.X}, {Tile.Y}";
         }
 
         public Simulation(string firstHeader, string secondHeader)
@@ -32,7 +31,7 @@ namespace SM_Programming_Exercise.Library
 
             Table = new Table(arrFirstHeader[0], arrFirstHeader[1]);
             Tile = new Tile(arrFirstHeader[2], arrFirstHeader[3]);
-            InsertCommands(arrSecondHeader);
+            Commands = TranslateCommands(arrSecondHeader);
 
             ResultData = $"{Tile.X}, {Tile.Y}";
         }
@@ -64,15 +63,23 @@ namespace SM_Programming_Exercise.Library
             }
         }
 
-        private void InsertCommands(int[] arr)
+        /// <summary>
+        /// Laziliy yield commands to the command list; performance
+        /// is greatly improved when command list is very large
+        /// </summary>
+        /// <param name="arr">The array from which to translate commands</param>
+        /// <returns>Yields an iterable list of Command</returns>
+        private IEnumerable<Command> TranslateCommands(int[] arr)
         {
-            foreach (int command in arr)
-                Commands.Add((Command)command);
+            foreach (int command in arr) yield return (Command)command;
         }
 
+        /// <summary>
+        /// Splits a string into an array of int
+        /// </summary>
+        /// <param name="header">The string to split, assumes comma-seperated list of numbers</param>
+        /// <returns>The original stirng represented as an array of int</returns>
         private static int[] ToIntArray(string header)
-        {
-            return header.Split(',').Select(x => int.Parse(x)).ToArray();
-        }
+            => header.Split(',').Select(x => int.Parse(x)).ToArray();
     }
 }

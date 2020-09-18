@@ -52,9 +52,12 @@ ___
 > in this case ​[0, 1]​.
 ___
 
+## Installation
+
 ## Assumptions
 1. The inputs will not be malformed in any way, though extra spaces and commas in each of the headers are accounted for are accounted for
 2. At least one command is provided, even if it is ```0 - quit```
+3. There will not be invalid commands e.g. ```-1```or ```5``` or ```Left```
 
 ## Extensibility Options
-As part of the brief, I'm required to structure this code so that extensibility is 
+As part of the brief, the applicant is required to structure this code so that extensibility is 
