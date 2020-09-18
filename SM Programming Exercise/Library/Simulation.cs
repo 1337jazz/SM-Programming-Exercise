@@ -11,7 +11,17 @@ namespace SM_Programming_Exercise.Library
         public List<Command> Commands { get; private set; } = new List<Command>();
         public string ResultData { get; set; }
 
-        private char[] trimChars = new char[] { ',', ' ' };
+        public bool TileStillOnTable
+        {
+            get
+            {
+                if (Tile.X < 0 || Tile.X > Table.Width - 1 || Tile.Y < 0 || Tile.Y > Table.Height - 1)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
 
         public Simulation(string firstHeader, string secondHeader)
         {
@@ -26,7 +36,18 @@ namespace SM_Programming_Exercise.Library
         public void Run()
         {
             foreach (Command command in Commands)
-                Tile.Move(command);
+            {
+                if (TileStillOnTable)
+                {
+                    Tile.ProcessCommand(command);
+                    ResultData = $"{Tile.X}, {Tile.Y}";
+                }
+                else
+                {
+                    ResultData = "-1, -1";
+                    break;
+                }
+            }
         }
 
         private void InsertCommands(int[] arr)

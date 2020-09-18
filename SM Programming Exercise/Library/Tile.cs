@@ -4,18 +4,21 @@ namespace SM_Programming_Exercise.Library
 {
     public class Tile
     {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public Bearing Bearing { get; set; } = Bearing.North;
+        private bool failed;
+
+        public int X { get; private set; }
+        public int Y { get; private set; }
+        public Bearing Bearing { get; private set; }
 
         public Tile(int startX, int startY)
         {
             // Initialise the starting position of the tile
             X = startX;
             Y = startY;
+            Bearing = Bearing.North;
         }
 
-        public void Move(Command command)
+        public void ProcessCommand(Command command)
         {
             switch (command)
             {
@@ -23,23 +26,19 @@ namespace SM_Programming_Exercise.Library
                     break;
 
                 case Command.MoveForward:
-                    System.Console.WriteLine("Move forward");
+                    Move(command);
                     break;
 
                 case Command.MoveBackwards:
-                    System.Console.WriteLine("Move backwards");
+                    Move(command);
                     break;
 
                 case Command.RotateClockwise:
-                    System.Console.WriteLine($"Change bearing clockwise");
                     ChangeBearing(Rotation.Clockwise);
-                    System.Console.WriteLine($"New bearing: {Bearing}");
                     break;
 
                 case Command.RotateAntiClockwise:
-                    System.Console.WriteLine($"Change bearing Anticlockwise");
                     ChangeBearing(Rotation.Anticlockwise);
-                    System.Console.WriteLine($"New bearing: {Bearing}");
                     break;
 
                 default:
@@ -58,6 +57,33 @@ namespace SM_Programming_Exercise.Library
 
                 case Rotation.Anticlockwise:
                     Bearing = Bearing == Bearing.North ? Bearing.West : Bearing -= 1;
+                    break;
+
+                default:
+                    // TODO: Throw a proper exception
+                    throw new System.Exception();
+            }
+        }
+
+        private void Move(Command command)
+        {
+            int directionalOffset = command == Command.MoveForward ? 1 : -1;
+            switch (Bearing)
+            {
+                case Bearing.North:
+                    Y -= directionalOffset;
+                    break;
+
+                case Bearing.East:
+                    X += directionalOffset;
+                    break;
+
+                case Bearing.South:
+                    Y += directionalOffset;
+                    break;
+
+                case Bearing.West:
+                    X -= directionalOffset;
                     break;
 
                 default:
