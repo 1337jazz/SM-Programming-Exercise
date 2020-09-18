@@ -1,6 +1,6 @@
 ﻿using SM_Programming_Exercise.Library.Enums;
 
-namespace SM_Programming_Exercise.Library
+namespace SM_Programming_Exercise.Library.Entities
 {
     public class Tile
     {
@@ -42,8 +42,8 @@ namespace SM_Programming_Exercise.Library
                     break;
 
                 default:
-                    // TODO: Throw a proper exception
-                    throw new System.Exception();
+                    break;
+                    
             }
         }
 

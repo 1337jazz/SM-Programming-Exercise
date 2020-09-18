@@ -1,4 +1,4 @@
-﻿namespace SM_Programming_Exercise.Library
+﻿namespace SM_Programming_Exercise.Library.Entities
 {
     public class Table
     {
