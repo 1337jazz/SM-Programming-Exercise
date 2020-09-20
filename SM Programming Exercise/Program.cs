@@ -11,13 +11,11 @@ namespace SM_Programming_Exercise
         /// </summary>
         private static void Main()
         {
-            // Initialise a new Simulation and feed in a concrete implementation of IProtocolData
-            // In this case, the data is from stdin ('Console.ReadLine()' in C#), but it is at
-            // one could replace 'var data = new StdinData();' with, for example:
-            // 'var data = new JsonData();', as long as the JsonData class implemented IProtocolData
+            // Select the type of data, which should be an implementation of IData
             var data = new StdinData();
-            data.Read();
-            data.Populate();
+            // var json = new JsonData();
+
+            // Initialise a new Simulation and feed in a concrete implementation of IData
             Simulation simulation = new Simulation(data);
 
             // Run the simulation

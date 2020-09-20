@@ -1,11 +1,10 @@
 using NUnit.Framework;
 using SM_Programming_Exercise.Library;
 using SM_Programming_Exercise.Library.Data;
-using SM_Programming_Exercise.Library.Interfaces;
 
 namespace UnitTests
 {
-    public class GeneralTests
+    internal class StdinTests
     {
         private string _head1;
         private string _head2;
@@ -20,7 +19,7 @@ namespace UnitTests
             _head2 = "1, 4, 1, 3, 2, 3, 2, 4, 1, 0";
 
             // Should be (0, 1)
-            Assert.AreEqual("0, 1", SimulationResult(_head1, _head2));
+            Assert.AreEqual("0, 1", _simulationResult);
         }
 
         /// <summary>
@@ -34,7 +33,7 @@ namespace UnitTests
             _head2 = "1, 4, 1, 3, 2, 3, 2, 4, 1, 1, 1, 1, 1, 0";
 
             // Should be (-1, -1)
-            Assert.AreEqual("-1, -1", SimulationResult(_head1, _head2));
+            Assert.AreEqual("-1, -1", _simulationResult);
         }
 
         /// <summary>
@@ -47,7 +46,7 @@ namespace UnitTests
             _head2 = "1, 3, 3, 3, 1, 1, 4, 1, 2, 2, 0";
 
             // Should be (2, 1)
-            Assert.AreEqual("2, 1", SimulationResult(_head1, _head2));
+            Assert.AreEqual("2, 1", _simulationResult);
         }
 
         /// <summary>
@@ -61,7 +60,7 @@ namespace UnitTests
             _head2 = "1, 3, 3, 3, 1, 0, 1, 4, 1, 2, 2, 0";
 
             // Should be (3, 2)
-            Assert.AreEqual("3, 2", SimulationResult(_head1, _head2));
+            Assert.AreEqual("3, 2", _simulationResult);
         }
 
         /// <summary>
@@ -74,7 +73,7 @@ namespace UnitTests
             _head2 = "0, 1, 3, 4, 3, 1, 4, 1, 4, 1, 2, 2, 0";
 
             // Should be (1, 3)
-            Assert.AreEqual("1, 3", SimulationResult(_head1, _head2));
+            Assert.AreEqual("1, 3", _simulationResult);
         }
 
         /// <summary>
@@ -87,7 +86,7 @@ namespace UnitTests
             _head2 = "0, 1, 3, 4, 3, 1, 4, 1, 4, 1, 2, 2, 0";
 
             // Should be (-1, -1)
-            Assert.AreEqual("-1, -1", SimulationResult(_head1, _head2));
+            Assert.AreEqual("-1, -1", _simulationResult);
         }
 
         /// <summary>
@@ -100,24 +99,58 @@ namespace UnitTests
             _head2 = "0";
 
             // Should be (1, 2)
-            Assert.AreEqual("1, 2", SimulationResult(_head1, _head2));
+            Assert.AreEqual("1, 2", _simulationResult);
+        }
+
+        /// <summary>
+        /// Ensures no errors if the table is as small as possible
+        /// </summary>
+        [Test]
+        public void CorrectForSmallestTable()
+        {
+            _head1 = "1, 1, 0, 0";
+            _head2 = "3";
+
+            Assert.AreEqual("0, 0", _simulationResult);
+        }
+
+        [Test]
+        public void CorrectWhenMoreComplex()
+        {
+            _head1 = "11, 12, 2, 11";
+            _head2 = "1,1,1,1,3,3,3,2,2,3,1,1,1,4,1,2,2,3,3,1,1,1,1,1,0";
+
+            Assert.AreEqual("10, 4", _simulationResult);
+        }
+
+        [Test]
+        public void CorrectWhenMoreComplexAndFallsOff()
+        {
+            _head1 = "11, 12, 5, 5";
+            _head2 = "3,1,4,1,1,1,4,2,2,2,4,1,1,1,1,1,3,1,1,3,2,2,2,2,2,1,1,0";
+
+            Assert.AreEqual("-1, -1", _simulationResult);
         }
 
         /// <summary>
         /// Private method to get a simulation result based on provided data
         /// </summary>
-        /// <param name="firstHeader">The first header (table dimensions and starting position)</param>
-        /// <param name="secondHeader">The second header (list of commands)</param>
-        /// <returns>String in the format "x, y" representing coordinates on a 2D plane</returns>
-        private string SimulationResult(string firstHeader, string secondHeader)
+        /// <returns>
+        /// String in the format "x, y" representing coordinates on a 2D plane
+        /// </returns>
+        private string _simulationResult
         {
-            var data = new TestStdinData(firstHeader, secondHeader);
-            data.Read();
-            data.Populate();
+            get
+            {
+                TestStdinData data = new TestStdinData(false);
+                data.FirstHeader = _head1;
+                data.SecondHeader = _head2;
+                data.TestRead();
 
-            var simulation = new Simulation(data);
-            simulation.Run();
-            return simulation.ResultData;
+                var sim = new Simulation(data);
+                sim.Run();
+                return sim.ResultData;
+            }
         }
     }
 }

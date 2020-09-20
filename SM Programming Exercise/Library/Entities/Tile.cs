@@ -1,8 +1,12 @@
-﻿using SM_Programming_Exercise.Library.Enums;
+﻿using SM_Programming_Exercise.Library.Base;
+using SM_Programming_Exercise.Library.Enums;
 using SM_Programming_Exercise.Library.Interfaces;
 
 namespace SM_Programming_Exercise.Library.Entities
 {
+    /// <summary>
+    /// Implements ICommandable; commands can be sent to this object
+    /// </summary>
     public class Tile : ICommandable
     {
         public int X { get; private set; }
@@ -11,12 +15,16 @@ namespace SM_Programming_Exercise.Library.Entities
 
         public Tile(int startX, int startY)
         {
-            // Initialise the starting position of the tile
+            // Initialise the starting position and bearing of the tile
             X = startX;
             Y = startY;
             Bearing = Bearing.North;
         }
 
+        /// <summary>
+        /// Processes a command, does nothing if the command is invalid
+        /// </summary>
+        /// <param name="command"></param>
         public void ProcessCommand(Command command)
         {
             switch (command)
@@ -30,7 +38,11 @@ namespace SM_Programming_Exercise.Library.Entities
             }
         }
 
-        private void ChangeBearing(Rotation rotation)
+        /// <summary>
+        /// Changes the direction of the ICommandable object
+        /// </summary>
+        /// <param name="rotation">The new direction in which the tile should face</param>
+        public void ChangeBearing(Rotation rotation)
         {
             Bearing = rotation switch
             {
@@ -40,7 +52,12 @@ namespace SM_Programming_Exercise.Library.Entities
             };
         }
 
-        private void Move(Command command)
+        /// <summary>
+        /// Moves the ICommandable object by one. An overload could perhaps increase the distance
+        /// travelled. Does nothing if the command is invalid
+        /// </summary>
+        /// <param name="command">The command to process</param>
+        public void Move(Command command)
         {
             int directionalOffset = command == Command.MoveForward ? 1 : -1;
             switch (Bearing)
@@ -62,8 +79,7 @@ namespace SM_Programming_Exercise.Library.Entities
                     break;
 
                 default:
-                    // TODO: Throw a proper exception
-                    throw new System.Exception();
+                    break;
             }
         }
     }

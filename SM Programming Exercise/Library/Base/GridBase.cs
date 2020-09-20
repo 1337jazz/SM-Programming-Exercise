@@ -1,11 +1,9 @@
-﻿using SM_Programming_Exercise.Library.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SM_Programming_Exercise.Library.Base
+﻿namespace SM_Programming_Exercise.Library.Base
 {
-    public class GridBase
+    /// <summary>
+    /// Base class for implementing a 2D grid
+    /// </summary>
+    public abstract class GridBase
     {
         public int Width { get; set; }
         public int Height { get; set; }

@@ -1,5 +1,4 @@
-﻿using SM_Programming_Exercise.Library.Data;
-using SM_Programming_Exercise.Library.Entities;
+﻿using SM_Programming_Exercise.Library.Entities;
 using SM_Programming_Exercise.Library.Enums;
 using SM_Programming_Exercise.Library.Interfaces;
 using System.Collections.Generic;
@@ -7,6 +6,9 @@ using System.Linq;
 
 namespace SM_Programming_Exercise.Library
 {
+    /// <summary>
+    /// Represents a Simulation and exposes relevant methods
+    /// </summary>
     public class Simulation
     {
         public Table Table { get; private set; }
@@ -16,7 +18,7 @@ namespace SM_Programming_Exercise.Library
 
         public bool TileStillOnTable { get => Table.BoundaryBreached(Tile.X, Tile.Y) ? false : true; }
 
-        public Simulation(IProtocolData data)
+        public Simulation(IData data)
         {
             Table = new Table(data.TableWidth, data.TableHeight);
             Tile = new Tile(data.TileStartX, data.TileStartY);
@@ -24,21 +26,30 @@ namespace SM_Programming_Exercise.Library
             ResultData = $"{Tile.X}, {Tile.Y}";
         }
 
+        /// <summary>
+        /// Runs the simulation
+        /// </summary>
         public void Run()
         {
             ExecuteTileCommands();
             // ExecuteTableCommands() could go here
         }
 
+        /// <summary>
+        /// Executes commands pertaining to the Tile object
+        /// </summary>
         private void ExecuteTileCommands()
         {
-            // Check if the tile starts off the table and immediately fail.
+            // Check if the tile starting position is already
+            // off the table, and immediately fail.
             if (!TileStillOnTable)
             {
                 ResultData = "-1, -1";
                 return;
             }
 
+            // Process each command in turn, and update the result data with the new position of
+            // the tile
             foreach (Command command in Commands)
             {
                 if (command == Command.Quit)
@@ -56,24 +67,5 @@ namespace SM_Programming_Exercise.Library
                 }
             }
         }
-
-        /// <summary>
-        /// Laziliy yield commands to the command list; performance
-        /// is improved when command list is very large
-        /// </summary>
-        /// <param name="arr">The array from which to translate commands</param>
-        /// <returns>Yields an iterable list of Command</returns>
-        private IEnumerable<Command> TranslateCommands(int[] arr)
-        {
-            foreach (int command in arr) yield return (Command)command;
-        }
-
-        /// <summary>
-        /// Splits a string into an array of int
-        /// </summary>
-        /// <param name="header">The string to split, assumes comma-seperated list of numbers</param>
-        /// <returns>The original stirng represented as an array of int</returns>
-        private static int[] ToIntArray(string header)
-            => header.Split(',').Select(x => int.Parse(x)).ToArray();
     }
 }

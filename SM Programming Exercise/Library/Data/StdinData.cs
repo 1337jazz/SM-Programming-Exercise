@@ -1,31 +1,28 @@
-﻿using SM_Programming_Exercise.Library.Enums;
-using SM_Programming_Exercise.Library.Interfaces;
+﻿using SM_Programming_Exercise.Library.Base;
+using SM_Programming_Exercise.Library.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace SM_Programming_Exercise.Library.Data
 {
-    public class StdinData : IProtocolData
+    /// <summary>
+    /// Implementation of InputBase to handle stdin
+    /// </summary>
+    public class StdinData : InputBase
     {
-        public int TableWidth { get; set; }
-        public int TableHeight { get; set; }
-        public int TileStartX { get; set; }
-        public int TileStartY { get; set; }
-        public IEnumerable<Command> CommandList { get; set; }
-        public string firstHeader;
-        public string secondHeader;
-
-        public virtual void Read()
+        // Call the base constructor (used for testing)
+        public StdinData(bool read = true) : base(read)
         {
-            firstHeader = Console.ReadLine();
-            secondHeader = Console.ReadLine();
         }
 
-        public void Populate()
+        /// <summary>
+        /// The main method to read the data, this method is forcibly overriden from the base class
+        /// </summary>
+        protected override void Read()
         {
-            int[] arrFirstHeader = ToIntArray(firstHeader);
-            int[] arrSecondHeader = ToIntArray(secondHeader);
+            int[] arrFirstHeader = ToIntArray(Console.ReadLine());
+            int[] arrSecondHeader = ToIntArray(Console.ReadLine());
 
             TableWidth = arrFirstHeader[0];
             TableHeight = arrFirstHeader[1];
@@ -38,7 +35,7 @@ namespace SM_Programming_Exercise.Library.Data
         /// Splits a string into an array of int
         /// </summary>
         /// <param name="header">The string to split, assumes comma-seperated list of numbers</param>
-        /// <returns>The original stirng represented as an array of int</returns>
+        /// <returns>The original string represented as an array of int</returns>
         public static int[] ToIntArray(string header)
             => header.Split(',').Select(x => int.Parse(x)).ToArray();
 

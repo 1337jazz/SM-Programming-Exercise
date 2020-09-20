@@ -56,31 +56,72 @@ ___
 ## Installation
 
 ## Assumptions
-1. The inputs will not be malformed in any way, though extra spaces and commas in each of the headers are accounted for are accounted for
-2. At least one command is provided, even if it is ```0 - quit```
-3. There will not be invalid commands e.g. ```-1```or ```5``` or ```Left```
-4. The mimimum size of the table is 1 x 1
+1. There is some input validation in place to allow graceful exits, though in the general it is assumed the inputs will not be malformed 
+2. At least one command is provided, even if it is `0 - quit`
+3. There will not be invalid commands e.g. `-1`or `5` or `Left`
+4. The mimimum size of the table is `1 x 1`
 
 ## Extensibility Options
-As part of the brief, the applicant is required to structure the code so that priority is given to extensibility.
+As part of the brief, the applicant is required to structure the code so that some thought is given to future extensibility.
 The company asks some questions regarding extensibility, below are are my answers:
 
 >Would it be easy to...
-> * Handle different shapes than a rectangle
+> * Handle different shapes than a rectangle?
 
-The ```GridBase``` base class is used as the base class for ```Table```. The intention here is that for a 
+Broadly, yes. The `GridBase` base class is used as the base class for `Table`. The intention here is that for a 
 new shape of table, a new class should be created that inherits from `GridBase` and the methods `SetGridShape()` and 
 `BoundaryBreached()` should be overridden with logic pertaining to the new shape.
 
-> * Add more commands like rotating the table instead of the object
+> * Add more commands like rotating the table instead of the object?
 
-The `Command` object is an enumeration which could be added to, and used with any other entity. The `Simulation.Run()` method
+Yes, the `Command` object is an enumeration which could be added to, and used with any other entity. The `Simulation.Run()` method
 can be extended to include, for example, a `RunTableCommands()` method. In addition, the interface `ICommandable` can be implemented in other objects, such as the
-table itself. This is infterface is implemented in both the `Tile` and `Table` classes, but merly stubs in `Table` by way of demonstration.
+table itself. This interface is implemented in both the `Tile` and `Table` classes, but merely stubbed in `Table` by way of demonstration.
 
-> * Change the binary form of the protocol to JSON
+> * Change the binary form of the protocol to JSON?
 
-Rather than accepting concrete type, the `Simulation` class takes an object of `IProtocolData` in its constructor. Any data entity being used with the
-`Simulation` class must implement this interface. The breif requires the input to be from `stdin`, hence the `StdinData` class is an implementation of this interface.
-An implementation of JSON data is also demonstrated as the `JsonData` class.
+Yes. Rather than accepting a concrete type, the `Simulation` class takes an object of `IData` in its constructor. Any data entity being used with the
+`Simulation` class must implement this interface. The brief requires the input to be from `stdin`, hence the `StdinData` class is an implementation of this interface.
+For completeness' sake, an implementation of JSON data is provided as the `JsonData` class, which just accepts JSON as a string. This could of course be
+JSON from a file, or XML from an API - the same principal applies.
+
+## Final words and further work 
+There is much more that could be done to increase the robustness and flexibility of this application and, as with all projects, understanding as much
+about the possible future scope is what dictates the degree to which the code should 'flex'. However, I hopefully demonstrated my knowledge and abilities
+to an acceptable level. Below are a few examples of changes to the brief that could be achieved with some minor modification, and others that would require more
+restructuring:
+
+>* Making the tile bigger than `1 x 1`, and not necessarily a square (.e.g `3 x 2`) 
+  
+Perhaps if the tile were, for example, `2 x 2` all 4 squares that make up the body would have to be off the table in order 
+to get the `-1, -1` result. This shouldn't be too painful to implement by perhaps adding an `Area` property to the `Tile` class, and adjusting the
+logic in the `BoundaryBreached` getter.
+>* Diagonal movement
+  
+ This could probably be quite simple to implement by adding to the `Rotation` and `Bearing` enums, as well as editing the switch statements in each of the `ICommandable`
+  interface's implementations in the `Tile` class. However, combining this feature with some of the others in the list might make it worth replacing `ICommandable` with 
+  an abstract base class.
+
+>* Different starting direction 
+  
+Fairly easy to implement by editing the constructor of the `Tile` object or other object implementing `ICommandable`
+>* Skipping tiles/jumping/teleporting
+  
+Should be quite simple to implement, by adding to the `Command` enum and adding a `Jump()` method to perhaps take `x` and `y` coordinates to jump to
+>* Multiple tiles and different command lists for each
+
+In this case perhaps one could change `Tile` and `CommandList` properties in the `Simulation` object to `IEnumerable<Tile>` and 
+`IEnumerable<CommandList>` respectivley (of course the `CommandList` class would need to be created in this case).
+
+
+> * More data about the Simulation
+
+Right now the `ResultData` property of the `Simulation` class is just a `string` because the data is so simple. Adding more data to this output, 
+for example 'number of moves', would probably warrant the creation of a new entity whose sole purpose is to extract and present data from a collection of
+one or more `ICommandable` and or `GridBase` child classes objects; a new interface may also be pertinent in the latter case
+
+ 
+>* What if the grid were in 3D space?
+
+This one would probably require substantial changes.
 
