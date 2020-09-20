@@ -37,6 +37,19 @@ namespace UnitTests
         }
 
         /// <summary>
+        /// The case from the example, modified to add an invalid int (6)
+        /// </summary>
+        [Test]
+        public void IgnoresInvalidIntCommands()
+        {
+            _head1 = "4, 4, 2, 2";
+            _head2 = "1, 6, 4, 1, 3, 2, 3, 2, 4, 1, 0";
+
+            // Should be (0, 1)
+            Assert.AreEqual("0, 1", _simulationResult);
+        }
+
+        /// <summary>
         /// A case with a different sized table
         /// </summary>
         [Test]

@@ -21,14 +21,21 @@ namespace SM_Programming_Exercise.Library.Data
         /// </summary>
         protected override void Read()
         {
-            int[] arrFirstHeader = ToIntArray(Console.ReadLine());
-            int[] arrSecondHeader = ToIntArray(Console.ReadLine());
-
-            TableWidth = arrFirstHeader[0];
-            TableHeight = arrFirstHeader[1];
-            TileStartX = arrFirstHeader[2];
-            TileStartY = arrFirstHeader[3];
-            CommandList = TranslateCommands(arrSecondHeader);
+            try
+            {
+                int[] arrFirstHeader = ToIntArray(Console.ReadLine());
+                int[] arrSecondHeader = ToIntArray(Console.ReadLine());
+                TableWidth = arrFirstHeader[0];
+                TableHeight = arrFirstHeader[1];
+                TileStartX = arrFirstHeader[2];
+                TileStartY = arrFirstHeader[3];
+                CommandList = TranslateCommands(arrSecondHeader);
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid data. Process aborted.");
+                Environment.Exit(-1);
+            }
         }
 
         /// <summary>

@@ -111,6 +111,8 @@ namespace UnitTests
             Assert.AreEqual("0, 0", _simulationResult);
         }
 
+        //TODO: ADD MISSING TESTS
+
         private string _simulationResult
         {
             get

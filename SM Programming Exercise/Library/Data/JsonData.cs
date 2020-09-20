@@ -17,18 +17,27 @@ namespace SM_Programming_Exercise.Library.Data
         /// </summary>
         protected override void Read()
         {
-            // Get JSON as string
-            string jsonString = Console.ReadLine();
+            try
+            {
+                // Get JSON as string
+                string jsonString = Console.ReadLine();
 
-            // Deserialize the string to a dynamic JObject
-            dynamic Json = JsonConvert.DeserializeObject(jsonString);
+                // Deserialize the string to a dynamic JObject
+                dynamic Json = JsonConvert.DeserializeObject(jsonString);
 
-            // Read the data to the properties
-            TableWidth = Json.TableWidth;
-            TableHeight = Json.TableHeight;
-            TileStartX = Json.TileStartX;
-            TileStartY = Json.TileStartY;
-            CommandList = TranslateCommands(Json.Commands);
+                // Read the data to the properties
+                TableWidth = Json.TableWidth;
+                TableHeight = Json.TableHeight;
+                TileStartX = Json.TileStartX;
+                TileStartY = Json.TileStartY;
+                CommandList = TranslateCommands(Json.Commands);
+            }
+            catch (Exception e) // Generic exception handler, just an example
+            {
+                Console.WriteLine("Invalid data. Process aborted.");
+                Console.WriteLine($"Exception details: \n\n {e.Message}");
+                Environment.Exit(-1);
+            }
         }
 
         /// <summary>
