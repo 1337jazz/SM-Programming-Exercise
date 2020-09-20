@@ -24,19 +24,13 @@ namespace SM_Programming_Exercise.Library
             ResultData = $"{Tile.X}, {Tile.Y}";
         }
 
-        public Simulation(string firstHeader, string secondHeader)
+        public void Run()
         {
-            int[] arrFirstHeader = ToIntArray(firstHeader);
-            int[] arrSecondHeader = ToIntArray(secondHeader);
-
-            Table = new Table(arrFirstHeader[0], arrFirstHeader[1]);
-            Tile = new Tile(arrFirstHeader[2], arrFirstHeader[3]);
-            Commands = TranslateCommands(arrSecondHeader);
-
-            ResultData = $"{Tile.X}, {Tile.Y}";
+            ExecuteTileCommands();
+            // ExecuteTableCommands() could go here
         }
 
-        public void Run()
+        private void ExecuteTileCommands()
         {
             // Check if the tile starts off the table and immediately fail.
             if (!TileStillOnTable)
@@ -65,7 +59,7 @@ namespace SM_Programming_Exercise.Library
 
         /// <summary>
         /// Laziliy yield commands to the command list; performance
-        /// is greatly improved when command list is very large
+        /// is improved when command list is very large
         /// </summary>
         /// <param name="arr">The array from which to translate commands</param>
         /// <returns>Yields an iterable list of Command</returns>

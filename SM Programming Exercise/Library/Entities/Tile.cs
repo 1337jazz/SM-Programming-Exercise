@@ -1,8 +1,9 @@
 ﻿using SM_Programming_Exercise.Library.Enums;
+using SM_Programming_Exercise.Library.Interfaces;
 
 namespace SM_Programming_Exercise.Library.Entities
 {
-    public class Tile
+    public class Tile : ICommandable
     {
         public int X { get; private set; }
         public int Y { get; private set; }

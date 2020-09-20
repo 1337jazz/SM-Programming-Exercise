@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SM_Programming_Exercise.Library.Base
 {
-    public class GridBase : ITable
+    public class GridBase
     {
         public int Width { get; set; }
         public int Height { get; set; }

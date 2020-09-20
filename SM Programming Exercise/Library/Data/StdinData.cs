@@ -20,15 +20,6 @@ namespace SM_Programming_Exercise.Library.Data
         {
             firstHeader = Console.ReadLine();
             secondHeader = Console.ReadLine();
-
-            //int[] arrFirstHeader = ToIntArray(firstHeader);
-            //int[] arrSecondHeader = ToIntArray(secondHeader);
-
-            //TableWidth = arrFirstHeader[0];
-            //TableHeight = arrFirstHeader[1];
-            //TileStartX = arrFirstHeader[2];
-            //TileStartY = arrFirstHeader[3];
-            //CommandList = TranslateCommands(arrSecondHeader);
         }
 
         public void Populate()

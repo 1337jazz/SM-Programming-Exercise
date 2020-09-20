@@ -1,6 +1,7 @@
 ﻿# SM Programming Exercise
 
-This repository forms part of an interview process whereby the applicant needs to work to a particular brief, provided by the company. The brief is provided below for posterity, after which follows my input.
+This repository forms part of an interview process whereby the applicant needs to work to a particular brief, provided by the company.
+The brief is provided below for posterity, after which follows my input.
 
 ___
 >  ## Brief
@@ -58,6 +59,28 @@ ___
 1. The inputs will not be malformed in any way, though extra spaces and commas in each of the headers are accounted for are accounted for
 2. At least one command is provided, even if it is ```0 - quit```
 3. There will not be invalid commands e.g. ```-1```or ```5``` or ```Left```
+4. The mimimum size of the table is 1 x 1
 
 ## Extensibility Options
-As part of the brief, the applicant is required to structure this code so that extensibility is 
+As part of the brief, the applicant is required to structure the code so that priority is given to extensibility.
+The company asks some questions regarding extensibility, below are are my answers:
+
+>Would it be easy to...
+> * Handle different shapes than a rectangle
+
+The ```GridBase``` base class is used as the base class for ```Table```. The intention here is that for a 
+new shape of table, a new class should be created that inherits from `GridBase` and the methods `SetGridShape()` and 
+`BoundaryBreached()` should be overridden with logic pertaining to the new shape.
+
+> * Add more commands like rotating the table instead of the object
+
+The `Command` object is an enumeration which could be added to, and used with any other entity. The `Simulation.Run()` method
+can be extended to include, for example, a `RunTableCommands()` method. In addition, the interface `ICommandable` can be implemented in other objects, such as the
+table itself. This is infterface is implemented in both the `Tile` and `Table` classes, but merly stubs in `Table` by way of demonstration.
+
+> * Change the binary form of the protocol to JSON
+
+Rather than accepting concrete type, the `Simulation` class takes an object of `IProtocolData` in its constructor. Any data entity being used with the
+`Simulation` class must implement this interface. The breif requires the input to be from `stdin`, hence the `StdinData` class is an implementation of this interface.
+An implementation of JSON data is also demonstrated as the `JsonData` class.
+

@@ -20,7 +20,7 @@ namespace UnitTests
             _head2 = "1, 4, 1, 3, 2, 3, 2, 4, 1, 0";
 
             // Should be (0, 1)
-            Assert.AreEqual("0, 1", SimulationResultAlt(_head1, _head2));
+            Assert.AreEqual("0, 1", SimulationResult(_head1, _head2));
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace UnitTests
             _head2 = "1, 4, 1, 3, 2, 3, 2, 4, 1, 1, 1, 1, 1, 0";
 
             // Should be (-1, -1)
-            Assert.AreEqual("-1, -1", SimulationResultAlt(_head1, _head2));
+            Assert.AreEqual("-1, -1", SimulationResult(_head1, _head2));
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace UnitTests
             _head2 = "1, 3, 3, 3, 1, 1, 4, 1, 2, 2, 0";
 
             // Should be (2, 1)
-            Assert.AreEqual("2, 1", SimulationResultAlt(_head1, _head2));
+            Assert.AreEqual("2, 1", SimulationResult(_head1, _head2));
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace UnitTests
             _head2 = "1, 3, 3, 3, 1, 0, 1, 4, 1, 2, 2, 0";
 
             // Should be (3, 2)
-            Assert.AreEqual("3, 2", SimulationResultAlt(_head1, _head2));
+            Assert.AreEqual("3, 2", SimulationResult(_head1, _head2));
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace UnitTests
             _head2 = "0, 1, 3, 4, 3, 1, 4, 1, 4, 1, 2, 2, 0";
 
             // Should be (1, 3)
-            Assert.AreEqual("1, 3", SimulationResultAlt(_head1, _head2));
+            Assert.AreEqual("1, 3", SimulationResult(_head1, _head2));
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace UnitTests
             _head2 = "0, 1, 3, 4, 3, 1, 4, 1, 4, 1, 2, 2, 0";
 
             // Should be (-1, -1)
-            Assert.AreEqual("-1, -1", SimulationResultAlt(_head1, _head2));
+            Assert.AreEqual("-1, -1", SimulationResult(_head1, _head2));
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace UnitTests
             _head2 = "0";
 
             // Should be (1, 2)
-            Assert.AreEqual("1, 2", SimulationResultAlt(_head1, _head2));
+            Assert.AreEqual("1, 2", SimulationResult(_head1, _head2));
         }
 
         /// <summary>
@@ -111,20 +111,7 @@ namespace UnitTests
         /// <returns>String in the format "x, y" representing coordinates on a 2D plane</returns>
         private string SimulationResult(string firstHeader, string secondHeader)
         {
-            var simulation = new Simulation(firstHeader, secondHeader);
-            simulation.Run();
-            return simulation.ResultData;
-        }
-
-        /// <summary>
-        /// Private method to get a simulation result based on provided data
-        /// </summary>
-        /// <param name="firstHeader">The first header (table dimensions and starting position)</param>
-        /// <param name="secondHeader">The second header (list of commands)</param>
-        /// <returns>String in the format "x, y" representing coordinates on a 2D plane</returns>
-        private string SimulationResultAlt(string firstHeader, string secondHeader)
-        {
-            var data = new TBinaryData(firstHeader, secondHeader);
+            var data = new TestStdinData(firstHeader, secondHeader);
             data.Read();
             data.Populate();
 
