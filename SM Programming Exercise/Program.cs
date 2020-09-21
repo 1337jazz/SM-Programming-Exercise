@@ -23,6 +23,7 @@ namespace SM_Programming_Exercise
 
             // Print the result
             Console.WriteLine(simulation.ResultData);
+            Console.ReadLine();
         }
     }
 }
