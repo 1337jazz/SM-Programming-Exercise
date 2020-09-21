@@ -100,38 +100,44 @@ There is much more that could be done to increase the robustness and flexibility
 about the possible future scope is what dictates the degree to which the code should 'flex'. However, I hopefully demonstrated my knowledge and abilities
 to an acceptable level. Below are a few examples of changes to the brief that could be achieved with some minor modification, and others that would require more
 restructuring:
-
+<br /><br />
 >* Making the tile bigger than `1 x 1`, and not necessarily a square (.e.g `3 x 2`) 
   
 Perhaps if the tile were, for example, `2 x 2` all 4 squares that make up the body would have to be off the table in order 
 to get the `-1, -1` result. This shouldn't be too painful to implement by perhaps adding an `Area` property to the `Tile` class, and adjusting the
 logic in the `BoundaryBreached` getter.
+<br /><br />
 >* Diagonal movement
-  
+
  This could probably be quite simple to implement by adding to the `Rotation` and `Bearing` enums, as well as editing the switch statements in each of the `ICommandable`
   interface's implementations in the `Tile` class. However, combining this feature with some of the others in the list might make it worth replacing `ICommandable` with 
   an abstract base class.
-
+<br /><br />
 >* Different starting direction 
-  
+
 Fairly easy to implement by editing the constructor of the `Tile` object or other object implementing `ICommandable`
+<br /><br />
+
 >* Skipping tiles/jumping/teleporting
   
-Should be quite simple to implement, by adding to the `Command` enum and adding a `Jump()` method to perhaps take `x` and `y` coordinates to jump to
+Should be quite simple to implement, by adding to the `Command` enum and adding a `Jump()` method to perhaps take `x` and `y` coordinates to jump to.
+<br /><br />
+
 >* Multiple tiles and different command lists for each
 
 In this case perhaps one could change `Tile` and `CommandList` properties in the `Simulation` object to `IEnumerable<Tile>` and 
 `IEnumerable<CommandList>` respectivley (of course the `CommandList` class would need to be created in this case).
-
+<br /><br />
 
 > * More data about the Simulation
 
 Right now the `ResultData` property of the `Simulation` class is just a `string` because the return data is so simple. Adding more data to this output, 
 for example 'number of moves', would probably warrant the creation of a new entity whose sole purpose is to extract and present data from a collection of
 one or more `ICommandable` and or `GridBase` child classes objects; a new interface may also be pertinent in the latter case
-
+<br /><br />
  
 >* What if the grid were in 3D space?
 
 This would probably constitute a drastic change in scope, and the implementation of this has not been given consideration.
+<br /><br />
 
