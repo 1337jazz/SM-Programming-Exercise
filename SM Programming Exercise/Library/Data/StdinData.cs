@@ -31,9 +31,11 @@ namespace SM_Programming_Exercise.Library.Data
                 TileStartY = arrFirstHeader[3];
                 CommandList = TranslateCommands(arrSecondHeader);
             }
-            catch (FormatException)
+            catch (Exception e) // Example exception handler
             {
                 Console.WriteLine("Invalid data. Process aborted.");
+                Console.WriteLine($"Exception details: \n\n {e.Message}");
+                Console.ReadLine();
                 Environment.Exit(-1);
             }
         }
