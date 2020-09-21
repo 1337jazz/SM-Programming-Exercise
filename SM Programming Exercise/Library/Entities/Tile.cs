@@ -1,6 +1,6 @@
-﻿using SM_Programming_Exercise.Library.Base;
-using SM_Programming_Exercise.Library.Enums;
+﻿using SM_Programming_Exercise.Library.Enums;
 using SM_Programming_Exercise.Library.Interfaces;
+using System;
 
 namespace SM_Programming_Exercise.Library.Entities
 {
@@ -48,7 +48,7 @@ namespace SM_Programming_Exercise.Library.Entities
             {
                 Rotation.Clockwise => Bearing == Bearing.West ? Bearing.North : Bearing += 1,
                 Rotation.Anticlockwise => Bearing == Bearing.North ? Bearing.West : Bearing -= 1,
-                _ => throw new System.Exception(),// TODO: Throw a proper exception
+                _ => throw new Exception("Invalid bearing!"),
             };
         }
 

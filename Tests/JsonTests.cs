@@ -111,7 +111,36 @@ namespace UnitTests
             Assert.AreEqual("0, 0", _simulationResult);
         }
 
-        //TODO: ADD MISSING TESTS
+        /// <summary>
+        /// The case from the example, modified to add an invalid int (6)
+        /// </summary>
+        [Test]
+        public void IgnoresInvalidIntCommands()
+        {
+            _json = "{TableWidth : 4, TableHeight: 4, TileStartX: 2, TileStartY: 2, " +
+                "Commands: [1, 6, 4, 1, 3, 2, 3, 2, 4, 1, 0]}";
+
+            // Should be (0, 1)
+            Assert.AreEqual("0, 1", _simulationResult);
+        }
+
+        [Test]
+        public void CorrectWhenMoreComplex()
+        {
+            _json = "{TableWidth : 11, TableHeight: 12, TileStartX: 2, TileStartY: 11, " +
+                "Commands: [1,1,1,1,3,3,3,2,2,3,1,1,1,4,1,2,2,3,3,1,1,1,1,1,0]}";
+
+            Assert.AreEqual("10, 4", _simulationResult);
+        }
+
+        [Test]
+        public void CorrectWhenMoreComplexAndFallsOff()
+        {
+            _json = "{TableWidth : 11, TableHeight: 12, TileStartX: 5, TileStartY: 5, " +
+                "Commands: [3,1,4,1,1,1,4,2,2,2,4,1,1,1,1,1,3,1,1,3,2,2,2,2,2,1,1,0]}";
+
+            Assert.AreEqual("-1, -1", _simulationResult);
+        }
 
         private string _simulationResult
         {

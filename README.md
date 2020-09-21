@@ -2,7 +2,7 @@
 
 This repository forms part of an interview process whereby the applicant needs to work to a particular brief, provided by the company.
 The brief is provided below for posterity, after which follows my input.
-
+<br/> <br/>
 ___
 >  ## Brief
 > 
@@ -52,18 +52,27 @@ ___
 > from ​stdin​ and executed. The final output would then be the end position of the object,
 > in this case ​[0, 1]​.
 ___
+<br/> <br/>
 
 ## Installation
+To build from source, clone the repository. The application is built on .NET Core 3.1, so the relevant SDK is required. If using Visual Studio, dependencies should 
+be automatically pulled from Nuget. `Program.Main()` is the entry point. Alternatively, a single release is provided.
+<br/> <br/>
 
 ## Assumptions
-1. There is some input validation in place to allow graceful exits, though in the general it is assumed the inputs will not be malformed 
+1. There is some input validation in place to allow graceful exits, but in general it is assumed the inputs will not be malformed 
 2. At least one command is provided, even if it is `0 - quit`
-3. There will not be invalid commands e.g. `-1`or `5` or `Left`
+3. There will not be invalid commands e.g. `-1`or `5` or `Left`. If so these will be ignored and not throw an exception
 4. The mimimum size of the table is `1 x 1`
+<br/> <br/>
 
+## Testing
+I have written a few test cases with NUnit, these are not exhaustive, but should form a good foundation for further testing.
+<br/> <br/>
 ## Extensibility Options
 As part of the brief, the applicant is required to structure the code so that some thought is given to future extensibility.
 The company asks some questions regarding extensibility, below are are my answers:
+<br/> <br/>
 
 >Would it be easy to...
 > * Handle different shapes than a rectangle?
@@ -84,6 +93,7 @@ Yes. Rather than accepting a concrete type, the `Simulation` class takes an obje
 `Simulation` class must implement this interface. The brief requires the input to be from `stdin`, hence the `StdinData` class is an implementation of this interface.
 For completeness' sake, an implementation of JSON data is provided as the `JsonData` class, which just accepts JSON as a string. This could of course be
 JSON from a file, or XML from an API - the same principal applies.
+<br/> <br/>
 
 ## Final words and further work 
 There is much more that could be done to increase the robustness and flexibility of this application and, as with all projects, understanding as much
@@ -116,12 +126,12 @@ In this case perhaps one could change `Tile` and `CommandList` properties in the
 
 > * More data about the Simulation
 
-Right now the `ResultData` property of the `Simulation` class is just a `string` because the data is so simple. Adding more data to this output, 
+Right now the `ResultData` property of the `Simulation` class is just a `string` because the return data is so simple. Adding more data to this output, 
 for example 'number of moves', would probably warrant the creation of a new entity whose sole purpose is to extract and present data from a collection of
 one or more `ICommandable` and or `GridBase` child classes objects; a new interface may also be pertinent in the latter case
 
  
 >* What if the grid were in 3D space?
 
-This one would probably require substantial changes.
+This would probably constitute a drastic change in scope, and the implementation of this has not been given consideration.
 

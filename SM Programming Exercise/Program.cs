@@ -12,8 +12,8 @@ namespace SM_Programming_Exercise
         private static void Main()
         {
             // Select the type of data, which should be an implementation of IData
-            //var data = new StdinData();
-            var data = new JsonData();
+            var data = new StdinData();
+            // var data = new JsonData(); <-- or uncomment this for JSON
 
             // Initialise a new Simulation and feed in a concrete implementation of IData
             Simulation simulation = new Simulation(data);
